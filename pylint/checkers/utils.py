@@ -38,7 +38,7 @@ BUILTINS_NAME = builtins.__name__
 COMP_NODE_TYPES = (astroid.ListComp, astroid.SetComp,
                    astroid.DictComp, astroid.GeneratorExp)
 PY3K = sys.version_info[0] == 3
-
+from backports.functools_lru_cache import lru_cache
 if not PY3K:
     EXCEPTIONS_MODULE = "exceptions"
 else:
@@ -505,6 +505,7 @@ def decorated_with(func, qnames):
             return True
 
 
+@lru_cache(maxsize=None)
 def unimplemented_abstract_methods(node, is_abstract_cb=None):
     """
     Get the unimplemented abstract methods for the given *node*.
@@ -623,6 +624,7 @@ def class_is_abstract(node):
     return False
 
 
+@lru_cache(maxsize=None)
 def _hasattr(value, attr):
     try:
         value.getattr(attr)
@@ -663,6 +665,7 @@ def _is_abstract_class_name(name):
     return is_mixin or is_abstract or is_base
 
 
+@lru_cache(maxsize=None)
 def is_inside_abstract_class(node):
     while node is not None:
         if isinstance(node, astroid.ClassDef):
@@ -675,6 +678,7 @@ def is_inside_abstract_class(node):
     return False
 
 
+@lru_cache(maxsize=None)
 def is_iterable(value):
     if isinstance(value, astroid.ClassDef):
         if not has_known_bases(value):
@@ -692,6 +696,7 @@ def is_iterable(value):
     return False
 
 
+@lru_cache(maxsize=None)
 def is_mapping(value):
     if isinstance(value, astroid.ClassDef):
         if not has_known_bases(value):
@@ -709,6 +714,7 @@ def is_mapping(value):
     return False
 
 
+@lru_cache(maxsize=None)
 def supports_membership_test(value):
     if isinstance(value, astroid.ClassDef):
         if not has_known_bases(value):
@@ -724,6 +730,7 @@ def supports_membership_test(value):
     return is_iterable(value)
 
 
+@lru_cache(maxsize=None)
 def supports_subscript(value):
     if isinstance(value, astroid.ClassDef):
         if not has_known_bases(value):
@@ -739,6 +746,7 @@ def supports_subscript(value):
     return False
 
 # TODO(cpopa): deprecate these or leave them as aliases?
+@lru_cache(maxsize=None)
 def safe_infer(node, context=None):
     """Return the inferred value for the given node.
 
@@ -759,6 +767,7 @@ def safe_infer(node, context=None):
         return value
 
 
+@lru_cache(maxsize=None)
 def has_known_bases(klass, context=None):
     """Return true if all base classes of a class could be inferred."""
     try:

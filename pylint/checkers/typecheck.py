@@ -35,6 +35,7 @@ import astroid.arguments
 from astroid import exceptions
 from astroid import objects
 from astroid import bases
+from pylint.checkers import utils
 
 from pylint.interfaces import IAstroidChecker, INFERENCE, INFERENCE_FAILURE
 from pylint.checkers import BaseChecker
@@ -435,6 +436,7 @@ accessed. Python regular expressions are accepted.'}
             else:
                 self.add_message('assignment-from-none', node=node)
 
+    @utils.lru_cache(maxsize=1000)
     def _check_uninferable_callfunc(self, node):
         """
         Check that the given uninferable CallFunc node does not
